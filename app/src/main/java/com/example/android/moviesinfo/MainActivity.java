@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +35,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //Creating a List of Booking History
     private List<MovieList> listPosterLink;
-
+    private String title,thumbnail,plotSynopsis,releaseDate;
+    private int userRating;
     //Creating Views
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -49,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
-        try{getSupportActionBar().setTitle("Pop Movies");}
-        catch(Throwable e){
-            e.printStackTrace();
-        }
+        try {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Pop Movies");
+        } catch (Throwable e) {
+            e.printStackTrace();}
         //Initializing our Poster list
         listPosterLink = new ArrayList<>();
         loadImagePoster();
@@ -157,7 +161,20 @@ public class MainActivity extends AppCompatActivity {
                         .appendPath("w500")
                         .appendPath(jsonObject.getString("poster_path").substring(1));
                 String posterURL = builder.build().toString();
-                MovieList listMoviePosterLinks = new MovieList(posterURL);
+                //Extracting Information
+                plotSynopsis = jsonObject.getString("overview");
+                title = jsonObject.getString("original_title");
+                releaseDate = jsonObject.getString("release_date");
+                userRating = jsonObject.getInt("vote_average");
+                Uri.Builder builderThumbnail = new Uri.Builder();
+                builderThumbnail.scheme("https")
+                        .authority("image.tmdb.org")
+                        .appendPath("t")
+                        .appendPath("p")
+                        .appendPath("w500")
+                        .appendPath(jsonObject.getString("backdrop_path").substring(1));
+                thumbnail = builderThumbnail.build().toString();
+                MovieList listMoviePosterLinks = new MovieList(posterURL,title,thumbnail,plotSynopsis,releaseDate,userRating);
                 listPosterLink.add(listMoviePosterLinks);
             }
             //initializing our adapter

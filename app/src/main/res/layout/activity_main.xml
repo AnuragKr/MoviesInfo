@@ -8,11 +8,21 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main"
     tools:context=".MainActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:titleTextColor="#000"
+        >
+    </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+        android:layout_below="@+id/toolbar"
         />
 
 </RelativeLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:titleTextColor="#000"
+        >
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolbar"
+        android:id="@+id/setTitle"
+        android:textSize="40dp"
+        android:textAlignment="textStart"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+        <ImageView
+            android:id="@+id/thumbnailImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            />
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/releaseDate"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userRating"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/favouriteMovie"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/fav"
+            android:drawableLeft="@drawable/fav"
+            android:textSize="24sp"/>
+        </LinearLayout>
+</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/plotSynopsis"
+        />
+
+</LinearLayout>
