@@ -1,6 +1,7 @@
 package com.example.android.moviesinfo;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
+        try{getSupportActionBar().setTitle("Pop Movies");}
+        catch(Throwable e){
+            e.printStackTrace();
+        }
         //Initializing our Poster list
         listPosterLink = new ArrayList<>();
         loadImagePoster();
@@ -61,18 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 .authority("api.themoviedb.org")
                 .appendPath("3")
                 .appendPath("movie")
-                .appendPath("top_rated")
+                .appendPath("popular")
                 .appendQueryParameter("api_key", "0bd70c8e2eb34a54d4609a2dac80f818");
         String movieUrl = builder.build().toString();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, movieUrl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        pd.dismiss();
-                    }
-                }, 5000);
+                pd.dismiss();
                 parseData(response);
             }
         }, new Response.ErrorListener() {
@@ -173,20 +174,16 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_item, menu);
         return true;
     }
-   /** @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.top_rated:
-
-                return true;
-            case R.id.popular:
-                Intent intent = getIntent();
-                finish();
+                Intent intent = new Intent(getApplicationContext(), TopRatedMovies.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }*/
+    }
 }
