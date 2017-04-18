@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,30 +36,35 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //Creating a List of Booking History
     private List<MovieList> listPosterLink;
-    private String title,thumbnail,plotSynopsis,releaseDate;
+    private String title, thumbnail, plotSynopsis, releaseDate;
     private int userRating;
     //Creating Views
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private String errorMessage = null, message = null;
+    private ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Initializing
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
+        //Toolbar
         try {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Pop Movies");
         } catch (Throwable e) {
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
         //Initializing our Poster list
         listPosterLink = new ArrayList<>();
+        //Function For Loading Information From Link
         loadImagePoster();
     }
 
@@ -85,11 +91,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
+                    iv = (ImageView) findViewById(R.id.page_not_found);
                     errorMessage = "Cannot connect to Internet...Please check your connection!";
+                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             pd.dismiss();
+                            iv.setImageResource(R.drawable.page_found);
                             Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }, 5000);
@@ -122,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     }, 5000);
                 } else if (volleyError instanceof NoConnectionError) {
                     errorMessage = "Cannot connect to Internet...Please check your connection!";
+                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -130,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }, 5000);
                 } else if (volleyError instanceof TimeoutError) {
+
                     errorMessage = "Connection TimeOut! Please check your internet connection.";
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -174,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                         .appendPath("w500")
                         .appendPath(jsonObject.getString("backdrop_path").substring(1));
                 thumbnail = builderThumbnail.build().toString();
-                MovieList listMoviePosterLinks = new MovieList(posterURL,title,thumbnail,plotSynopsis,releaseDate,userRating);
+                MovieList listMoviePosterLinks = new MovieList(posterURL, title, thumbnail, plotSynopsis, releaseDate, userRating);
                 listPosterLink.add(listMoviePosterLinks);
             }
             //initializing our adapter
@@ -185,12 +196,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_item, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection

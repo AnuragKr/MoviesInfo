@@ -28,6 +28,7 @@ public class MovieInformation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movie_information);
+        //Retrieving Data From MovieAdapter
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if (bd != null) {
@@ -38,6 +39,7 @@ public class MovieInformation extends AppCompatActivity {
             userRating = (String) bd.get("userRating");
 
         }
+        //Toolbar
         try {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -53,8 +55,10 @@ public class MovieInformation extends AppCompatActivity {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+        //Setting Title
         Button titleButton = (Button) findViewById(R.id.setTitle);
         titleButton.setText(title);
+        //Initializing View
         TextView userRatingText = (TextView) findViewById(R.id.userRating);
         TextView releaseDateText = (TextView) findViewById(R.id.releaseDate);
         TextView plotSynopsisText = (TextView) findViewById(R.id.plotSynopsis);
