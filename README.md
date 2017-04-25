@@ -9,3 +9,13 @@ The app will:
 •	A plot synopsis (called overview in the api)
 •	user rating (called vote_average in the api)
 •	release date
+
+#Fetching a data from API
+
+To fetch popular movies, I am using API from themoviedb.org.
+○ If you don’t already have an account, you will need to create one in order to request an API Key.
+○ In order to request popular movies you will want to request data from the /movie/popular and /movie/top_rated endpoints. An API Key is required.
+○ Once you obtain your key, you append it to your HTTP request as a URL parameter like so:
+■ http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]
+○ You will extract the movie id from this request. You will need this in subsequent requests.
+
